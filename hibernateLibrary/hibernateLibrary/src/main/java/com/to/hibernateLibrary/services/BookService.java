@@ -90,6 +90,16 @@ public class BookService {
 
     }
 
+    public List<BookDto> findAllByYearOfPublicationGreaterThanEqualAndYearOfPublicationLessThanEqual(Long year1, Long year2){
+        List<Book> bookList = bookRepository.findAllByYearOfPublicationGreaterThanEqualAndYearOfPublicationLessThanEqual(year1,year2);
+        List<BookDto> bookDtoList = new ArrayList<>();
+        bookList.forEach(book -> {
+            BookDto bookDto = this.entityToDto(book);
+            bookDtoList.add(bookDto);
+        });
+        return bookDtoList;
+    }
+
 
     public ResponseEntity<BookDto> save(Book book){
         BookDto bookDto = this.entityToDto(bookRepository.save(book));

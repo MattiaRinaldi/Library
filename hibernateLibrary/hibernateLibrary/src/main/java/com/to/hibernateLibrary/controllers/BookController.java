@@ -48,6 +48,13 @@ public class BookController {
         return bookService.findBookByAuthor(authorId);
     }
 
+    // GET method to fetch all books by author
+    @GetMapping("/year/{year1}/{year2}")
+    public List<BookDto> findAllByYearOfPublicationGreaterThanEqualAndYearOfPublicationLessThanEqual
+    (@PathVariable Long year1, @PathVariable Long year2){
+        return bookService.findAllByYearOfPublicationGreaterThanEqualAndYearOfPublicationLessThanEqual(year1,year2);
+    }
+
 
     // POST method to create a book
     @PostMapping(value = "/",consumes = {"application/json"})

@@ -13,6 +13,7 @@ import java.util.*;
 
 @Service
 public class AuthorService {
+
     @Autowired
     private AuthorRepository authorRepository;
 
@@ -29,10 +30,8 @@ public class AuthorService {
 
     public AuthorDto findById(Long authorId){
 
-        AuthorDto authorDto = this.entityToDto(authorRepository
+        return this.entityToDto(authorRepository
                 .findById(authorId).orElseThrow(() -> new RuntimeException("Author " + authorId + " not found")));
-
-        return authorDto;
 
     }
 
@@ -89,7 +88,7 @@ public class AuthorService {
                 .build();
     }
 
-    public Author dtoToEntity(AuthorDto authorDto) {
+    public static Author dtoToEntity(AuthorDto authorDto) {
         Author author = new Author();
 
         author.setAuthorId(authorDto.getAuthorId());

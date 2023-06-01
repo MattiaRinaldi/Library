@@ -1,11 +1,7 @@
 package com.to.hibernateLibrary.services;
 
-import com.to.hibernateLibrary.dto.BookDto;
 import com.to.hibernateLibrary.dto.ReservationDto;
-import com.to.hibernateLibrary.entities.Author;
-import com.to.hibernateLibrary.entities.Book;
 import com.to.hibernateLibrary.entities.Reservation;
-import com.to.hibernateLibrary.entities.User;
 import com.to.hibernateLibrary.repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,10 +29,9 @@ public class ReservationService {
 
     public ReservationDto findById(Long reservationId){
 
-        ReservationDto reservationDto = this.entityToDto(reservationRepository
+        return this.entityToDto(reservationRepository
                 .findById(reservationId).orElseThrow(() -> new RuntimeException("Reservation " + reservationId + " not found")));
 
-        return reservationDto;
 
     }
 

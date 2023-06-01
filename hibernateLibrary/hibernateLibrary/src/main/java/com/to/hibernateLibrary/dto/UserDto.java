@@ -1,7 +1,5 @@
 package com.to.hibernateLibrary.dto;
 
-
-import com.to.hibernateLibrary.entities.Author;
 import lombok.*;
 
 import java.sql.Date;

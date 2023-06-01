@@ -1,11 +1,7 @@
 package com.to.hibernateLibrary.controllers;
 
-import com.to.hibernateLibrary.dto.BookDto;
 import com.to.hibernateLibrary.dto.ReservationDto;
-import com.to.hibernateLibrary.entities.Author;
-import com.to.hibernateLibrary.entities.Book;
 import com.to.hibernateLibrary.entities.Reservation;
-import com.to.hibernateLibrary.entities.User;
 import com.to.hibernateLibrary.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +24,7 @@ public class ReservationController {
 
     // GET method to fetch reservation by id
     @GetMapping("/{id}")
-    public ResponseEntity<ReservationDto> getReservationById(@PathVariable Long id)
-            throws Exception {
+    public ResponseEntity<ReservationDto> getReservationById(@PathVariable Long id) {
         ReservationDto reservationDto = reservationService.findById(id);
 
         return ResponseEntity.ok().body(reservationDto);
@@ -57,13 +52,13 @@ public class ReservationController {
     @PutMapping("/{id}")
     public ResponseEntity<ReservationDto> updateReservation(
             @PathVariable Long id, @RequestBody Reservation reservationDetails
-    ) throws Exception {
+    ) {
         return reservationService.update(id,reservationDetails);
     }
 
     // DELETE method to delete a reservation
     @DeleteMapping("/{id}")
-    public Map<String, Boolean> deleteReservation(@PathVariable Long id) throws Exception {
+    public Map<String, Boolean> deleteReservation(@PathVariable Long id) {
         return reservationService.delete(id);
     }
 

@@ -1,10 +1,6 @@
 package com.to.hibernateLibrary.services;
 
-
-import com.to.hibernateLibrary.dto.ReservationDto;
 import com.to.hibernateLibrary.dto.UserDto;
-import com.to.hibernateLibrary.entities.Book;
-import com.to.hibernateLibrary.entities.Reservation;
 import com.to.hibernateLibrary.entities.User;
 import com.to.hibernateLibrary.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +29,8 @@ public class UserService {
 
     public UserDto findById(Long userId){
 
-        UserDto userDto = this.entityToDto(userRepository
+        return this.entityToDto(userRepository
                 .findById(userId).orElseThrow(() -> new RuntimeException("User " + userId + " not found")));
-
-        return userDto;
 
     }
 

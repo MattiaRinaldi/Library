@@ -3,24 +3,25 @@ package com.to.hibernateLibrary.services;
 
 
 
+import com.to.hibernateLibrary.dto.AuthorDto;
 import com.to.hibernateLibrary.dto.BookDto;
-import com.to.hibernateLibrary.entities.Author;
 import com.to.hibernateLibrary.entities.Book;
 import com.to.hibernateLibrary.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.*;
-import java.sql.Date;
 
 @Service
 public class BookService {
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private AuthorService authorService;
 
 
     public List<BookDto> findAll(){
@@ -36,10 +37,8 @@ public class BookService {
 
     public BookDto findById(Long bookId){
 
-        BookDto bookDto = this.entityToDto(bookRepository
+        return this.entityToDto(bookRepository
                 .findById(bookId).orElseThrow(() -> new RuntimeException("Book " + bookId + " not found")));
-
-        return bookDto;
 
     }
 
@@ -77,7 +76,11 @@ public class BookService {
         });
 
         return bookDtoList;*/
-        List<Book> bookList = bookRepository.findAllBookByAuthorId(authorId);
+        //List<Book> bookList = bookRepository.findAllBookByAuthorId(authorId);
+
+        AuthorDto authorDto = authorService.findById(authorId);
+        List<Book> bookList = bookRepository.findAllBookByAuthorId(AuthorService.dtoToEntity(authorDto));
+
         List<BookDto> bookDtoList = new ArrayList<>();
         bookList.forEach(book -> {
             BookDto bookDto = this.entityToDto(book);

@@ -1,15 +1,12 @@
 package com.to.hibernateLibrary.controllers;
 
-import com.to.hibernateLibrary.dto.AuthorDto;
 import com.to.hibernateLibrary.dto.BookDto;
-import com.to.hibernateLibrary.entities.Author;
 import com.to.hibernateLibrary.entities.Book;
 import com.to.hibernateLibrary.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -27,8 +24,7 @@ public class BookController {
 
     // GET method to fetch book by id
     @GetMapping("/{id}")
-    public ResponseEntity<BookDto> getBookById(@PathVariable Long id)
-            throws Exception {
+    public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
         BookDto bookDto = bookService.findById(id);
 
         return ResponseEntity.ok().body(bookDto);
@@ -63,14 +59,14 @@ public class BookController {
     @PutMapping("/{id}")
     public ResponseEntity<BookDto> updateBook(
             @PathVariable Long id, @RequestBody Book bookDetails
-    ) throws Exception {
+    ) {
         return bookService.update(id,bookDetails);
 
     }
 
     // DELETE method to delete a book
     @DeleteMapping("/{id}")
-    public Map<String, Boolean> deleteBook(@PathVariable Long id) throws Exception {
+    public Map<String, Boolean> deleteBook(@PathVariable Long id) {
         return bookService.delete(id);
     }
 }

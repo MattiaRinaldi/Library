@@ -104,18 +104,19 @@ public class ReservationService {
         return response;
     }
 
-    /*public Map<String, Boolean>  deleteReservationByUser(User user){
+    public Map<String, Boolean>  deleteReservationByUser(Long userId){
 
-        List<ReservationDto> reservationList = new ArrayList<>();
-        reservationList.forEach(reservation -> {reservationRepository.findAllByUser(user)
+        List<ReservationDto> reservationList = this.findReservationByUser(userId);
+        reservationList.forEach(reservation -> {
+            Reservation reservationTemp = this.dtoToEntity(reservation);
+            reservationRepository.delete(reservationTemp);
         });
 
-        reservationRepository.deleteAll(reservationDto);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
 
         return response;
-    }*/
+    }
 
     private ReservationDto entityToDto(Reservation reservation) {
         return ReservationDto.builder().reservationId(reservation.getReservationId())

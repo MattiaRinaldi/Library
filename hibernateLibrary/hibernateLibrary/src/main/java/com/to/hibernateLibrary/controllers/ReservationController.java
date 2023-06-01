@@ -62,9 +62,9 @@ public class ReservationController {
         return reservationService.delete(id);
     }
 
-    /*// DELETE method to delete a reservation
-    @DeleteMapping("/all/{user}")
-    public Map<String, Boolean> deleteReservationByUser(@PathVariable User user) throws Exception {
-        return reservationService.deleteReservationByUser(user);
-    }*/
+    // DELETE method to delete a reservation
+    @DeleteMapping("/all/{userId}")
+    public Map<String, Boolean> deleteReservationByUserId(@PathVariable Long userId) throws Exception {
+        return reservationService.deleteReservationByUser(userId);
+    }
 }

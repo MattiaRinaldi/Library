@@ -1,0 +1,38 @@
+create database library;
+
+create table "user" (
+user_id serial primary key,
+"name" varchar(50) not null,
+surname varchar(50) not null,
+email varchar(50) not null,
+date_of_registration date not null,
+birthday date,
+check ((email)::text ~ '^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$'::text)
+);
+
+create table author (
+author_id serial primary key,
+"name" varchar(50) not null,
+surname varchar(50) not null,
+nation varchar(50),
+birthday date
+);
+
+create table book(
+book_id serial primary key,
+title varchar(100) not null,
+author int not null,
+genre varchar(50),
+year_of_publication int,
+number_of_pages int,
+foreign key (author) references author(author_id)
+);
+
+create table reservation(
+reservation_id serial primary key,
+book_id int not null,
+user_id int not null,
+date_of_reservation date not null,
+foreign key (book_id) references book(book_id),
+foreign key (user_id) references "user"(user_id)
+);

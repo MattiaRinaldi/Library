@@ -65,19 +65,6 @@ public class BookService {
     }
 
     public List<BookDto> findBookByAuthor(Long authorId){
-
-        /* AuthorService authorService = new AuthorService();
-        Author author = authorService.dtoToEntity(authorService.findById(authorId));
-        List<Book> bookList = bookRepository.findAllByAuthorId(author);
-        List<BookDto> bookDtoList = new ArrayList<>();
-        bookList.forEach(book -> {
-            BookDto bookDto = this.entityToDto(book);
-            bookDtoList.add(bookDto);
-        });
-
-        return bookDtoList;*/
-        //List<Book> bookList = bookRepository.findAllBookByAuthorId(authorId);
-
         AuthorDto authorDto = authorService.findById(authorId);
         List<Book> bookList = bookRepository.findAllBookByAuthorId(AuthorService.dtoToEntity(authorDto));
 

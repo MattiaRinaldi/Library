@@ -132,7 +132,7 @@ public class BookService {
                 .build();
     }
 
-    private Book dtoToEntity(BookDto bookDto) {
+    public static Book dtoToEntity(BookDto bookDto) {
         Book book = new Book();
 
         book.setBookId(bookDto.getBookId());

@@ -30,18 +30,18 @@ public class ReservationController {
         return ResponseEntity.ok().body(reservationDto);
     }
 
-   /* // GET method to fetch all reservations by book
-    @GetMapping("/reservation/{bookId}")
-    public List<ReservationDto> getAllBooksByAuthor(@PathVariable Book bookId){
+    // GET method to fetch all reservations by book
+    @GetMapping("/book/{bookId}")
+    public List<ReservationDto> getAllReservationByBookId(@PathVariable Long bookId){
         return reservationService.findReservationByBook(bookId);
     }
 
     // GET method to fetch all reservations by user
-    @GetMapping("/reservation/{userId}")
-    public List<ReservationDto> getAllBooksByAuthor(@PathVariable User userId){
+    @GetMapping("/user/{userId}")
+    public List<ReservationDto> getAllReservationByUserId(@PathVariable Long userId){
         return reservationService.findReservationByUser(userId);
     }
-*/
+
     // POST method to create a reservation
     @PostMapping("/")
     public ResponseEntity<ReservationDto> createReservation(@RequestBody Reservation reservation) {

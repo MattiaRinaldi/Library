@@ -1,7 +1,12 @@
 package com.to.hibernateLibrary.services;
 
+import com.to.hibernateLibrary.dto.AuthorDto;
+import com.to.hibernateLibrary.dto.BookDto;
 import com.to.hibernateLibrary.dto.ReservationDto;
+import com.to.hibernateLibrary.dto.UserDto;
+import com.to.hibernateLibrary.entities.Book;
 import com.to.hibernateLibrary.entities.Reservation;
+import com.to.hibernateLibrary.repositories.BookRepository;
 import com.to.hibernateLibrary.repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +20,12 @@ import java.util.*;
 public class ReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
+
+    @Autowired
+    private BookService bookService;
+
+    @Autowired
+    private UserService userService;
 
     public List<ReservationDto> findAll(){
         List<Reservation> reservationList = reservationRepository.findAll();
@@ -35,8 +46,10 @@ public class ReservationService {
 
     }
 
-   /* public List<ReservationDto> findReservationByBook(Book bookId){
-        List<Reservation> reservationList = reservationRepository.findAllByBook(bookId);
+    public List<ReservationDto> findReservationByBook(Long bookId){
+        BookDto bookDto = bookService.findById(bookId);
+        List<Reservation> reservationList = reservationRepository.findAllByBookId(BookService.dtoToEntity(bookDto));
+
         List<ReservationDto> reservationDtoList = new ArrayList<>();
         reservationList.forEach(reservation -> {
             ReservationDto reservationDto = this.entityToDto(reservation);
@@ -46,8 +59,10 @@ public class ReservationService {
         return reservationDtoList;
     }
 
-    public List<ReservationDto> findReservationByUser(User userId){
-        List<Reservation> reservationList = reservationRepository.findAllByUser(userId);
+    public List<ReservationDto> findReservationByUser(Long userId){
+        UserDto userDto = userService.findById(userId);
+        List<Reservation> reservationList = reservationRepository.findAllByUserId(UserService.dtoToEntity(userDto));
+
         List<ReservationDto> reservationDtoList = new ArrayList<>();
         reservationList.forEach(reservation -> {
             ReservationDto reservationDto = this.entityToDto(reservation);
@@ -55,7 +70,7 @@ public class ReservationService {
         });
 
         return reservationDtoList;
-    }*/
+    }
 
     public ResponseEntity<ReservationDto> save(Reservation reservation){
         ReservationDto reservationDto = this.entityToDto(reservationRepository.save(reservation));

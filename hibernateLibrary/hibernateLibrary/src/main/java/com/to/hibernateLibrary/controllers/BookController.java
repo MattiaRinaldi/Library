@@ -50,7 +50,7 @@ public class BookController {
 
     // GET method to fetch all books between two years
     @GetMapping("/year/{year1}/{year2}")
-    public List<BookDto> findAllByYearOfPublicationGreaterThanEqualAndYearOfPublicationLessThanEqual
+    public List<BookDto> getAllByYearOfPublicationGreaterThanEqualAndYearOfPublicationLessThanEqual
     (@PathVariable Long year1, @PathVariable Long year2){
         return bookService.findAllByYearOfPublicationGreaterThanEqualAndYearOfPublicationLessThanEqual(year1,year2);
     }

@@ -23,11 +23,6 @@ public class UserController {
         return userService.findAll();
     }
 
-    // GET method to fetch all users by a specific criteria
-    @GetMapping("/list")
-    public ResponseEntity<List<UserDto>> listUsers(UserCriteriaDto criteriaDto) {
-        return ResponseEntity.ok(this.userService.getAllUsers(criteriaDto));
-    }
 
     // GET method to fetch user by id
     @GetMapping("/{id}")
@@ -48,6 +43,12 @@ public class UserController {
     @PostMapping("/")
     public ResponseEntity<UserDto> createUser(@RequestBody User user) {
         return userService.save(user);
+    }
+
+    // POST method to fetch all users by a specific criteria
+    @PostMapping("/list")
+    public ResponseEntity<List<UserDto>> listUsers(@RequestBody UserCriteriaDto criteriaDto) {
+        return ResponseEntity.ok(this.userService.getAllUsers(criteriaDto));
     }
 
     // PUT method to update a user's details

@@ -5,15 +5,22 @@ package com.to.hibernateLibrary.services;
 
 import com.to.hibernateLibrary.dto.AuthorDto;
 import com.to.hibernateLibrary.dto.BookDto;
+import com.to.hibernateLibrary.dto.BookCriteriaDto;
 import com.to.hibernateLibrary.entities.Book;
 import com.to.hibernateLibrary.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import java.net.URI;
 import java.util.*;
+
+import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
 public class BookService {
@@ -87,6 +94,30 @@ public class BookService {
         return bookDtoList;
     }
 
+    public Long getNumberOfBookByGenre(BookCriteriaDto dto){
+        List<Book> numberOfBookByGenre = bookRepository.findAll(hasValidCriteria(dto));
+        return (long) numberOfBookByGenre.size();
+    }
+    private Specification<Book> hasValidCriteria(BookCriteriaDto dto) {
+
+        return (rt, q, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (dto.getGenre() != null) {
+                predicates.add(cb.and(cb.like(rt.get("genre"),"%" + dto.getGenre() + "%")));
+            }
+
+            if (dto.getYear1() != null) {
+                predicates.add(cb.greaterThanOrEqualTo(rt.get("yearOfPublication"),dto.getYear1()));
+            }
+
+            if(dto.getYear2() != null){
+                predicates.add(cb.lessThanOrEqualTo(rt.get("yearOfPublication"),dto.getYear2()));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[]{}));
+        };
+    }
 
     public ResponseEntity<BookDto> save(Book book){
         BookDto bookDto = this.entityToDto(bookRepository.save(book));

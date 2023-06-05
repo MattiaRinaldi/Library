@@ -1,9 +1,11 @@
 package com.to.hibernateLibrary.controllers;
 
+import com.to.hibernateLibrary.dto.BookCriteriaDto;
 import com.to.hibernateLibrary.dto.BookDto;
 import com.to.hibernateLibrary.entities.Book;
 import com.to.hibernateLibrary.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,6 +55,12 @@ public class BookController {
     public List<BookDto> getAllByYearOfPublicationGreaterThanEqualAndYearOfPublicationLessThanEqual
     (@PathVariable Long year1, @PathVariable Long year2){
         return bookService.findAllByYearOfPublicationGreaterThanEqualAndYearOfPublicationLessThanEqual(year1,year2);
+    }
+
+    // POST method to fetch number of books by a specific criteria
+    @PostMapping("/count")
+    public Long getNumberOfBookByGenre(@RequestBody BookCriteriaDto dto){
+        return bookService.getNumberOfBookByGenre(dto);
     }
 
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,12 @@ public class ReservationController {
     @GetMapping("/user/{userId}")
     public List<ReservationDto> getAllReservationByUserId(@PathVariable Long userId){
         return reservationService.findReservationByUser(userId);
+    }
+
+    // GET method to fetch all date of reservations by user
+    @GetMapping("/date/{userId}")
+    public List<Date> getAllDateByUserId(@PathVariable Long userId){
+        return reservationService.findDateOfReservationByUserId(userId);
     }
 
     // POST method to create a reservation

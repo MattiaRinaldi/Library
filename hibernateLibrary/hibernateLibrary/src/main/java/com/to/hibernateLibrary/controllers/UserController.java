@@ -1,5 +1,6 @@
 package com.to.hibernateLibrary.controllers;
 
+import com.to.hibernateLibrary.dto.UserCriteriaDto;
 import com.to.hibernateLibrary.dto.UserDto;
 import com.to.hibernateLibrary.entities.User;
 import com.to.hibernateLibrary.services.UserService;
@@ -20,6 +21,12 @@ public class UserController {
     @GetMapping("/all")
     public List<UserDto> getAllUsers() {
         return userService.findAll();
+    }
+
+    // GET method to fetch all users by a specific criteria
+    @GetMapping("/list")
+    public ResponseEntity<List<UserDto>> listUsers(UserCriteriaDto criteriaDto) {
+        return ResponseEntity.ok(this.userService.getAllUsers(criteriaDto));
     }
 
     // GET method to fetch user by id

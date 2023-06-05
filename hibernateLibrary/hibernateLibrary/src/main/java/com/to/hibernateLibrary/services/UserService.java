@@ -1,15 +1,20 @@
 package com.to.hibernateLibrary.services;
 
+
+import com.to.hibernateLibrary.dto.UserCriteriaDto;
 import com.to.hibernateLibrary.dto.UserDto;
 import com.to.hibernateLibrary.entities.User;
 import com.to.hibernateLibrary.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.persistence.criteria.Predicate;
 import java.net.URI;
 import java.util.*;
+
 
 @Service
 public class UserService {
@@ -43,6 +48,41 @@ public class UserService {
         });
 
         return reservationDtoList;
+    }
+
+    public List<UserDto> getAllUsers(UserCriteriaDto criteriaDto) {
+        List<User> userList = this.userRepository.findAll(hasValidCriteria(criteriaDto));
+        List<UserDto> reservationDtoList = new ArrayList<>();
+        userList.forEach(user -> {
+            UserDto userDto = this.entityToDto(user);
+            reservationDtoList.add(userDto);
+        });
+
+        return reservationDtoList;
+    }
+
+    private Specification<User> hasValidCriteria(UserCriteriaDto dto) {
+
+        return (rt, q, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (dto.getEmail() != null) {
+                predicates.add(cb.and(cb.like(rt.get("email"), "%" + dto.getEmail() + "%")));
+            }
+
+           /* if (dto.getStatus() != null)
+                predicates.add(cb.and(cb.equal(rt.get("active"), dto.getStatus())));
+
+    /**
+    * NB: questi due predicate servono per selezionare gli utenti che hanno la password valorizzata (colonna password) e l'otp verificato (colonna otp_code_verified) a DB.
+    * Questi devono essere sempre inseriti nella query di selezione.
+    */
+          /*  predicates.add(cb.and(cb.isNotNull(rt.get("password")),cb.notEqual(rt.get("password"), "")));
+
+            predicates.add(cb.and(cb.isTrue(rt.get("otpCodeVerified"))));*/
+
+            return cb.and(predicates.toArray(new Predicate[]{}));
+        };
     }
 
     public ResponseEntity<UserDto> save(User user){
@@ -90,7 +130,7 @@ public class UserService {
                 .build();
     }
 
-    private User dtoToEntity(UserDto userDto) {
+    public static User dtoToEntity(UserDto userDto) {
         User user = new User();
 
         user.setUserId(userDto.getUserId());

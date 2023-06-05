@@ -1,18 +1,17 @@
 package com.to.hibernateLibrary.services;
 
-import com.to.hibernateLibrary.dto.AuthorDto;
+
 import com.to.hibernateLibrary.dto.BookDto;
 import com.to.hibernateLibrary.dto.ReservationDto;
 import com.to.hibernateLibrary.dto.UserDto;
-import com.to.hibernateLibrary.entities.Book;
 import com.to.hibernateLibrary.entities.Reservation;
-import com.to.hibernateLibrary.repositories.BookRepository;
 import com.to.hibernateLibrary.repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.sql.Date;
 import java.net.URI;
 import java.util.*;
 
@@ -70,6 +69,15 @@ public class ReservationService {
         });
 
         return reservationDtoList;
+    }
+
+    public List<Date> findDateOfReservationByUserId(Long userId){
+        List<ReservationDto> reservationDtoList = findReservationByUser(userId);
+        List<Date> reservationDate = new ArrayList<>();
+        reservationDtoList.forEach(reservationDto -> {
+            reservationDate.add(reservationDto.getDateOfReservation());
+        });
+        return reservationDate;
     }
 
     public ResponseEntity<ReservationDto> save(Reservation reservation){
